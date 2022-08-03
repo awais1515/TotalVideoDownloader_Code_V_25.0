@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_privacy_policy"
+            android:icon="@drawable/privacy_policy"
+            android:title="Privacy Policy" />
+        <item
+            android:id="@+id/nav_share_app"
+            android:icon="@drawable/share_app"
+            android:title="Share App" />
+        <item
+            android:id="@+id/nav_rateus"
+            android:icon="@drawable/rateus"
+            android:title="Rate Us" />
+
+    </group>
+
+<!--    <item android:title="Only Toggle Theme would work">-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/nav_share"-->
+<!--                android:icon="@drawable/ic_menu_share"-->
+<!--                android:title="Share" />-->
+<!--            <item-->
+<!--                android:id="@+id/nav_dark_mode"-->
+<!--                android:icon="@android:drawable/ic_menu_day"-->
+<!--                android:title="Toggle Theme" />-->
+<!--        </menu>-->
+<!--    </item>-->
+
+</menu>

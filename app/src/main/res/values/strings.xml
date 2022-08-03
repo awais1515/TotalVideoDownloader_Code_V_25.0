@@ -1,0 +1,142 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Total Video Downloader</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="app_roposo">Roposo</string>
+    <string name="str_head">Total Video \nDownloader</string>
+    <string name="str_txtUrlHint">Pastr Link...</string>
+    <string name="str_Download">Download Now</string>
+    <string name="str_loadingtext">Checking Download Link..</string>
+    <string name="DownloadComplete">Download Complete</string>
+    <string name="FileDeleted">File Deleted Successfully</string>
+    <string name="UnabletoDelete">Unable to Delete file</string>
+    <string name="ConfirmDelete">Do you want to Delete ?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+
+
+    <string name="Play">Play</string>
+    <string name="Delete">Delete</string>
+    <string name="Share">Share</string>
+    <string name="ShareFile">Share File</string>
+    <string name="NoExternalStoragepermission">Write External Storage permission allows us to read  files.Please allow this permission in App Settings.</string>
+    <string name="PermissionDenied">Permission Denied, You cannot use local drive </string>
+    <string name="enterUrl">Please Enter Video Url</string>
+    <string name="enterValidUrl">Please Enter Valid Video Url</string>
+
+    <string name="downloadstarted">New file download started !</string>
+    <string name="EnabletoDownload">Unable to Download</string>
+    <string name="EnabletoDownloadTry">Unable to Download, Please try again</string>
+
+    <string name="Roposo_Suffix">Roposo_</string>
+    <string name="Chingari_Suffix">Chingari_</string>
+    <string name="GoogleDrive_Suffix">GoogleDrive_</string>
+    <string name="ShareChat_Suffix">ShareChat_</string>
+    <string name="Facebook_Suffix">Facebook_</string>
+    <string name="Instagram_Suffix">Instagram_</string>
+    <string name="Twitter_Suffix">Twitter_</string>
+    <string name="Vimeo_Suffix">Vimeo_</string>
+    <string name="Tiktok_Suffix">Tiktok_</string>
+    <string name="Youtube_Suffix">Youtube_</string>
+    <string name="Likee_Suffix">Likee_</string>
+    <string name="tiktok_Suffix">tiktok_</string>
+    <string name="Rizzle_Suffix">Rizzle_</string>
+    <string name="Josh_Suffix">Josh_</string>
+    <string name="Zili_Suffix">Zili_</string>
+    <string name="Mitron_Suffix">Mitron_</string>
+    <string name="Trell_Suffix">Trell_</string>
+    <string name="Dubsmash_Suffix">Dubsmash_</string>
+    <string name="Triller_Suffix">Triller_</string>
+    <string name="BoloIndya_Suffix">BoloIndya_</string>
+    <string name="Hind_Suffix">Hind_</string>
+    <string name="Ifunny_Suffix">Ifunny_</string>
+    <string name="Funimate_Suffix">Funimate_</string>
+    <string name="Byte_Suffix">Byte_</string>
+    <string name="MXTakatak_Suffix">MXTakatak_</string>
+    <string name="Fairtok_Suffix">Fairtok_</string>
+    <string name="Raask_Suffix">Raask_</string>
+    <string name="Ojoo_Suffix">Ojoo_</string>
+    <string name="SnackVideo_Suffix">SnackVideo_</string>
+    <string name="Imgur_Suffix">Imgur_</string>
+    <string name="Tumblr_Suffix">Tumblr_</string>
+    <string name="IMDb_Suffix">IMDb_</string>
+    <string name="Pinterest_Suffix">Pinterest_</string>
+    <string name="Flickr_Suffix">Flickr_</string>
+    <string name="Moj_Suffix">Moj_</string>
+    <string name="Reddit_Suffix">Reddit_</string>
+    <string name="Soundcloud_Suffix">Soundcloud_</string>
+    <string name="paste_link">Paste Link....</string>
+    <string name="fansubs_Suffix">fansubs_</string>
+    <string name="fourAnim_Suffix">fourAnim_</string>
+    <string name="pdisk_Suffix">PDisk_</string>
+    <string name="Tiki_Suffix">Tiki_</string>
+    <string name="Lomotif_Suffix">Lomotif_</string>
+
+    <!--    Downloader Browser Related Strings ##__START__##;-->
+    <string name="enter_url">Enter URL</string>
+    <string name="home">(home)</string>
+    <string name="buffering_string">Buffering..</string>
+    <string name="SizeUnknown">Size: unknown</string>
+    <string name="Downloads">Downloads</string>
+    <string name="share">Share</string>
+    <string name="app_link">https://play.google.com/store</string>
+    <string name="PrivacyPolicy">Privacy Policy</string>
+    <string name="Help">Help - How to use </string>
+    <string name="delete">Delete</string>
+    <string name="Submitnonworking">Submit non working link</string>
+    <string name="exitbrowser">! Exit Browser</string>
+    <string name="suretodelete">Are you sure you want to delete?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="Close">Close</string>
+    <string name="Videos">Videos</string>
+    <string name="Dismiss">Dismiss</string>
+    <string name="Complete">Complete</string>
+    <string name="Failed">Failed</string>
+    <string name="Title">Title</string>
+    <string name="Preview">Preview</string>
+    <string name="NameYourfile">Name Your file</string>
+    <string name="Download">Download</string>
+    <string name="hithere">hi there</string>
+    <string name="Shareusing">Share using</string>
+    <string name="Permissiondenied">:( Permission denied</string>
+    <string name="AvailableMedia">Available Media</string>
+    <string name="AvailableFiles">Available Files</string>
+    <string name="FileDownloadstarted">File Download Started</string>
+    <!--    Downloader Browser Related Strings ##__END__##;-->
+
+
+
+    <!--    Add "FACEBOOK" if you want ads from Facebook Audiance Network (default ADMOB ) -->
+    <string name="Ads">ADMOB</string>
+
+    <string name="AdmobPUB_Id" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="AdmobBanner_1" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="AdmobBanner_2" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="AdmobInterstitial" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--    For Browser-->
+    <string name="AdmobBanner_3" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="AdmobBanner_4" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="AdmobInterstitial_2" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--    Native Banner Placement ID 1-->
+    <string name="FB_Banner_Ad_PlacemaneId_1" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+    <!--    Native Banner Placement ID 2-->
+    <string name="FB_Banner_Ad_PlacemaneId_2" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+    <!--    Interstitial ad Placement ID 3-->
+    <string name="FB_Interstitial_Ad_PlacemaneId" tools:ignore="MissingTranslation">391833248570597_391848878569034</string>
+
+    <!--    For Browser-->
+    <!--    Native Banner Placement ID 1-->
+    <string name="FB_Banner_Ad_PlacemaneId_3" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+    <!--    Native Banner Placement ID 2-->
+    <string name="FB_Banner_Ad_PlacemaneId_4" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+    <!--    Interstitial ad Placement ID 3-->
+    <string name="FB_Interstitial_Ad_PlacemaneId_2" tools:ignore="MissingTranslation">391833248570597_391848878569034</string>
+
+</resources>
