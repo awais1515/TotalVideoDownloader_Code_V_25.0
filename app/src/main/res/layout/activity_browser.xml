@@ -75,7 +75,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
         </LinearLayout>
-        <com.google.android.gms.ads.AdView
+       <!-- <com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adViewMainAct"
             android:layout_width="match_parent"
@@ -85,8 +85,14 @@
             android:layout_gravity="bottom"
             app:layout_constraintBottom_toBottomOf="parent"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/AdmobBanner_3">
-        </com.google.android.gms.ads.AdView>
+            ads:adUnitId="@string/AdmobBanner_3">-->
+<!--        </com.google.android.gms.ads.AdView>-->
+        <LinearLayout
+            android:id="@+id/ADMOBBANNER3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
 
     </LinearLayout>
 

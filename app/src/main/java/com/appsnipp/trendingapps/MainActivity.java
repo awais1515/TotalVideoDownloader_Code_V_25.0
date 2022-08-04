@@ -11,8 +11,11 @@ import android.os.Bundle;
 
 import com.appsnipp.trendingapps.Utils.Services;
 import com.appsnipp.trendingapps.Utils.TextUtils;
+import com.appsnipp.trendingapps.app.FireBaseHelper;
+import com.appsnipp.trendingapps.app.SharedPref;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FireBaseHelper.loadAdSettingsFromFireBase();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         c=this;
@@ -138,13 +143,18 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+        adViewMainAct = new AdView(this);
+        adViewMainAct.setAdSize(AdSize.SMART_BANNER);
+        adViewMainAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_1,SharedPref.ADMOB_BANNER_AD_DEFAULT_1));
 
-        adViewMainAct=findViewById(R.id.adViewMainAct);
+//        adViewMainAct=findViewById(R.id.adViewMainAct);
 
         AudienceNetworkAds.initialize(this);
         if( getResources().getString(R.string.Ads).equals("ADMOB") ){
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adViewMainAct.loadAd(adRequest);
+                LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER1);
+                layout.addView(adViewMainAct);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adViewMainAct.loadAd(adRequest);
         }
         else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
             adViewMainAct.setVisibility(View.GONE);

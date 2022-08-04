@@ -81,11 +81,13 @@ import com.appsnipp.trendingapps.Models.ServicesModel;
 import com.appsnipp.trendingapps.Utils.Services;
 import com.appsnipp.trendingapps.Utils.TextUtils;
 import com.appsnipp.trendingapps.Utils.Utils;
+import com.appsnipp.trendingapps.app.SharedPref;
 import com.appsnipp.trendingapps.interfaces.AsyncResponse;
 import com.facebook.ads.AudienceNetworkAds;
 import com.github.nikartm.button.FitButton;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -150,7 +152,7 @@ public class DetailsActivity extends AppCompatActivity  {
         {}
 
         AdRequest adRequestinter = new AdRequest.Builder().build();
-        InterstitialAd.load(this,getResources().getString(R.string.AdmobInterstitial), adRequestinter, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,SharedPref.read(SharedPref.KEY_ADMOB_INTER,SharedPref.KEY_ADMOB_INTER), adRequestinter, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 mInterstitialAd = interstitialAd;
@@ -188,8 +190,12 @@ public class DetailsActivity extends AppCompatActivity  {
         FBinterstitialAd = new com.facebook.ads.InterstitialAd(this, getResources().getString(R.string.FB_Interstitial_Ad_PlacemaneId));
         FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
 
-
+        adViewDetail = new AdView(this);
+        adViewDetail.setAdSize(AdSize.SMART_BANNER);
+        adViewDetail.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_2,SharedPref.ADMOB_BANNER_AD_DEFAULT_2));
         if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+            LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER2);
+            layout.addView(adViewDetail);
             AdRequest adRequest = new AdRequest.Builder().build();
             adViewDetail.loadAd(adRequest);
         }else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
@@ -265,7 +271,7 @@ public class DetailsActivity extends AppCompatActivity  {
         fbBtn_Download=findViewById(R.id.fbBtn_Download);
         fbBtn_Download.setOnClickListener(DownloadPress());
         txt_Service_Name=findViewById(R.id.txt_Service_Name);
-        adViewDetail=findViewById(R.id.adViewDetail);
+//        adViewDetail=findViewById(R.id.adViewDetail);
     }
 
     private void LoadFiles()

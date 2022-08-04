@@ -1,25 +1,26 @@
 package com.appsnipp.trendingapps;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.appsnipp.trendingapps.Models.file_type;
 import com.appsnipp.trendingapps.Utils.Utils;
+import com.appsnipp.trendingapps.app.SharedPref;
+import com.appsnipp.trendingapps.browser.Adapters.DownloadsAdapter;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.appsnipp.trendingapps.browser.Adapters.DownloadsAdapter;
-import com.appsnipp.trendingapps.Models.file_type;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,12 +69,18 @@ public class DownloadsActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-
-        adViewDetailAct=findViewById(R.id.adViewDetailAct);
+        adViewDetailAct = new AdView(this);
+        adViewDetailAct.setAdSize(AdSize.SMART_BANNER);
+        adViewDetailAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_4,SharedPref.ADMOB_BANNER_AD_DEFAULT_4));
+//        adViewDetailAct=findViewById(R.id.adViewDetailAct);
         AudienceNetworkAds.initialize(this);
         if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+            LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER4);
+            layout.addView(adViewDetailAct);
             AdRequest adRequest = new AdRequest.Builder().build();
             adViewDetailAct.loadAd(adRequest);
+//            AdRequest adRequest = new AdRequest.Builder().build();
+//            adViewDetailAct.loadAd(adRequest);
         }
         else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
             adViewDetailAct.setVisibility(View.GONE);

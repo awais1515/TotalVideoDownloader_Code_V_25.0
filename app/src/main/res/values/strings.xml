@@ -115,13 +115,13 @@
     <string name="Ads">ADMOB</string>
 
     <string name="AdmobPUB_Id" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="AdmobBanner_1" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="AdmobBanner_2" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="AdmobBanner_1" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>-->
+<!--    <string name="AdmobBanner_2" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>-->
     <string name="AdmobInterstitial" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/1033173712</string>
 
     <!--    For Browser-->
-    <string name="AdmobBanner_3" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="AdmobBanner_4" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="AdmobBanner_3" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>-->
+<!--    <string name="AdmobBanner_4" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>-->
     <string name="AdmobInterstitial_2" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/1033173712</string>
 
     <!--    Native Banner Placement ID 1-->

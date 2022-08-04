@@ -40,10 +40,12 @@ import android.widget.Toast;
 import com.anthonycr.progress.AnimatedProgressBar;
 import com.appsnipp.trendingapps.Utils.TextUtils;
 import com.appsnipp.trendingapps.Utils.Utils;
+import com.appsnipp.trendingapps.app.SharedPref;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -115,10 +117,18 @@ public class BrowserActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+        adViewMainAct = new AdView(this);
+        adViewMainAct.setAdSize(AdSize.SMART_BANNER);
+        adViewMainAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_3,SharedPref.ADMOB_BANNER_AD_DEFAULT_3));
+
         AudienceNetworkAds.initialize(this);
         if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+            LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER3);
+            layout.addView(adViewMainAct);
             AdRequest adRequest = new AdRequest.Builder().build();
             adViewMainAct.loadAd(adRequest);
+//            AdRequest adRequest = new AdRequest.Builder().build();
+//            adViewMainAct.loadAd(adRequest);
         }
         else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
             adViewMainAct.setVisibility(View.GONE);
@@ -263,7 +273,7 @@ public class BrowserActivity extends AppCompatActivity {
         simpleWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         simpleWebView.setWebViewClient(new customWebClient());
 
-        adViewMainAct=findViewById(R.id.adViewMainAct);
+//        adViewMainAct=findViewById(R.id.adViewMainAct);
         et_search_bar=findViewById(R.id.et_search_bar);
         int layout = android.R.layout.simple_list_item_1;
         AutoCompleteAdapter adapter = new AutoCompleteAdapter (mContext, layout);
