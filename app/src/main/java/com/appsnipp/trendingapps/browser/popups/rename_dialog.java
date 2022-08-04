@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.appsnipp.trendingapps.app.SharedPref;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
@@ -56,7 +57,8 @@ public class rename_dialog  extends AppCompatDialogFragment {
         activity=getActivity();
 
         AdRequest adRequestinter = new AdRequest.Builder().build();
-        InterstitialAd.load(mContext,getResources().getString(R.string.AdmobInterstitial_2), adRequestinter, new InterstitialAdLoadCallback() {
+//        InterstitialAd.load(mContext,getResources().getString(R.string.AdmobInterstitial_2), adRequestinter, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(mContext, SharedPref.read(SharedPref.KEY_ADMOB_INTER_2,SharedPref.ADMOB_INTER_AD_DEFAULT_2), adRequestinter, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 mInterstitialAd = interstitialAd;
