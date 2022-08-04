@@ -31,7 +31,7 @@ public class FireBaseHelper {
                 String admobBannerAdUnit_3 = dataSnapshot.child(SharedPref.KEY_ADMOB_BANNER_AD_3).getValue().toString();
                 String admobBannerAdUnit_4 = dataSnapshot.child(SharedPref.KEY_ADMOB_BANNER_AD_4).getValue().toString();
                 String admobInterAdUnit = dataSnapshot.child(SharedPref.KEY_ADMOB_INTER).getValue().toString();
-                String admobInterAdUnit_2 = dataSnapshot.child(SharedPref.KEY_ADMOB_INTER).getValue().toString();
+                String admobInterAdUnit_2 = dataSnapshot.child(SharedPref.KEY_ADMOB_INTER_2).getValue().toString();
 
                 SharedPref.write(SharedPref.KEY_ADMOB_BANNER_AD_1, admobBannerAdUnit_1);
                 SharedPref.write(SharedPref.KEY_ADMOB_BANNER_AD_2, admobBannerAdUnit_2);

@@ -152,7 +152,7 @@ public class DetailsActivity extends AppCompatActivity  {
         {}
 
         AdRequest adRequestinter = new AdRequest.Builder().build();
-        InterstitialAd.load(this,SharedPref.read(SharedPref.KEY_ADMOB_INTER,SharedPref.KEY_ADMOB_INTER), adRequestinter, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,SharedPref.read(SharedPref.KEY_ADMOB_INTER,SharedPref.ADMOB_INTER_AD_DEFAULT), adRequestinter, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 mInterstitialAd = interstitialAd;
