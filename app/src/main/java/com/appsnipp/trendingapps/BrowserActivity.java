@@ -132,7 +132,8 @@ public class BrowserActivity extends AppCompatActivity {
         }
         else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
             adViewMainAct.setVisibility(View.GONE);
-            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_3), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+//            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_3), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+            fb_AdView=new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_3, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_3), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             LinearLayout adContainer = (LinearLayout) findViewById(R.id.fb_banner_container);
             adContainer.addView(fb_AdView);
             fb_AdView.loadAd();

@@ -187,7 +187,7 @@ public class DetailsActivity extends AppCompatActivity  {
 
 
         AudienceNetworkAds.initialize(this);
-        FBinterstitialAd = new com.facebook.ads.InterstitialAd(this, getResources().getString(R.string.FB_Interstitial_Ad_PlacemaneId));
+        FBinterstitialAd = new com.facebook.ads.InterstitialAd(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_INTER_AD_1, SharedPref.FB_ADMOB_INTERADS_AD_DEFAULT));
         FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
 
         adViewDetail = new AdView(this);
@@ -200,7 +200,8 @@ public class DetailsActivity extends AppCompatActivity  {
             adViewDetail.loadAd(adRequest);
         }else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
             adViewDetail.setVisibility(View.GONE);
-            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_2), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+//            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_2), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+            fb_AdView=new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_2, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_2), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             LinearLayout adContainer = (LinearLayout) findViewById(R.id.fb_banner_container_detail);
             adContainer.addView(fb_AdView);
             fb_AdView.loadAd();

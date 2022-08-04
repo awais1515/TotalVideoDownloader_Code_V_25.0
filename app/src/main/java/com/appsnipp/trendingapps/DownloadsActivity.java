@@ -41,27 +41,24 @@ public class DownloadsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_downloads);
 
-        Toolbar toolbar =  findViewById(R.id.toolbar_download);
+        Toolbar toolbar = findViewById(R.id.toolbar_download);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         downloadsList = findViewById(R.id.downloadsCompletedList);
         File videoFile = Utils.RootDirectoryBrowserShow;
-        if(videoFile.exists())
-        {
+        if (videoFile.exists()) {
             List<File> nonExistentFiles = new ArrayList<>(Arrays.asList(videoFile.listFiles()));
-            if(!nonExistentFiles.isEmpty())
-            {
-                adapter=new DownloadsAdapter(nonExistentFiles,this,File_type);
+            if (!nonExistentFiles.isEmpty()) {
+                adapter = new DownloadsAdapter(nonExistentFiles, this, File_type);
                 downloadsList.setAdapter(adapter);
                 downloadsList.setLayoutManager(new GridLayoutManager(this, 2));
                 downloadsList.setHasFixedSize(true);
             }
         }
-
 
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -71,20 +68,20 @@ public class DownloadsActivity extends AppCompatActivity {
         });
         adViewDetailAct = new AdView(this);
         adViewDetailAct.setAdSize(AdSize.SMART_BANNER);
-        adViewDetailAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_4,SharedPref.ADMOB_BANNER_AD_DEFAULT_4));
+        adViewDetailAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_4, SharedPref.ADMOB_BANNER_AD_DEFAULT_4));
 //        adViewDetailAct=findViewById(R.id.adViewDetailAct);
         AudienceNetworkAds.initialize(this);
-        if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+        if (getResources().getString(R.string.Ads).equals("ADMOB")) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER4);
             layout.addView(adViewDetailAct);
             AdRequest adRequest = new AdRequest.Builder().build();
             adViewDetailAct.loadAd(adRequest);
 //            AdRequest adRequest = new AdRequest.Builder().build();
 //            adViewDetailAct.loadAd(adRequest);
-        }
-        else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
+        } else if (getResources().getString(R.string.Ads).equals("FACEBOOK")) {
             adViewDetailAct.setVisibility(View.GONE);
-            fb_banner_container_detail=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_4), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+//            fb_banner_container_detail=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_4), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+            fb_banner_container_detail = new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_4, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_4), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             LinearLayout adContainer = (LinearLayout) findViewById(R.id.fb_banner_container_detail);
             adContainer.addView(fb_banner_container_detail);
             fb_banner_container_detail.loadAd();

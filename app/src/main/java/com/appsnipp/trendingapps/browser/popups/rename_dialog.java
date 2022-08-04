@@ -70,7 +70,7 @@ public class rename_dialog  extends AppCompatDialogFragment {
         });
 
         AudienceNetworkAds.initialize(mContext);
-        FBinterstitialAd = new com.facebook.ads.InterstitialAd(mContext, getResources().getString(R.string.FB_Interstitial_Ad_PlacemaneId_2));
+        FBinterstitialAd = new com.facebook.ads.InterstitialAd(mContext, SharedPref.read(SharedPref.KEY_FB_ADMOB_INTER_AD_2, SharedPref.FB_ADMOB_INTERADS_AD_DEFAULT_2));
         FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
 
 

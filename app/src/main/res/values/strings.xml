@@ -125,18 +125,18 @@
 <!--    <string name="AdmobInterstitial_2" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/1033173712</string>-->
 
     <!--    Native Banner Placement ID 1-->
-    <string name="FB_Banner_Ad_PlacemaneId_1" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+<!--    <string name="FB_Banner_Ad_PlacemaneId_1" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>-->
     <!--    Native Banner Placement ID 2-->
-    <string name="FB_Banner_Ad_PlacemaneId_2" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+<!--    <string name="FB_Banner_Ad_PlacemaneId_2" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>-->
     <!--    Interstitial ad Placement ID 3-->
-    <string name="FB_Interstitial_Ad_PlacemaneId" tools:ignore="MissingTranslation">391833248570597_391848878569034</string>
+<!--    <string name="FB_Interstitial_Ad_PlacemaneId" tools:ignore="MissingTranslation">391833248570597_391848878569034</string>-->
 
     <!--    For Browser-->
     <!--    Native Banner Placement ID 1-->
-    <string name="FB_Banner_Ad_PlacemaneId_3" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+<!--    <string name="FB_Banner_Ad_PlacemaneId_3" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>-->
     <!--    Native Banner Placement ID 2-->
-    <string name="FB_Banner_Ad_PlacemaneId_4" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>
+<!--    <string name="FB_Banner_Ad_PlacemaneId_4" tools:ignore="MissingTranslation">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>-->
     <!--    Interstitial ad Placement ID 3-->
-    <string name="FB_Interstitial_Ad_PlacemaneId_2" tools:ignore="MissingTranslation">391833248570597_391848878569034</string>
+<!--    <string name="FB_Interstitial_Ad_PlacemaneId_2" tools:ignore="MissingTranslation">391833248570597_391848878569034</string>-->
 
 </resources>
