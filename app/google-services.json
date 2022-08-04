@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "378744780298",
+    "project_id": "totalvideodownloader-63b88",
+    "storage_bucket": "totalvideodownloader-63b88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378744780298:android:45185dffdf4227bb1511f3",
+        "android_client_info": {
+          "package_name": "com.appsnipp.trendingapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378744780298-3prlhrsu6ksjge9hei1bh1e4fivos81u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVSCeEorojDlp78s2-itXHdH9nnQsgy5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378744780298-3prlhrsu6ksjge9hei1bh1e4fivos81u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
