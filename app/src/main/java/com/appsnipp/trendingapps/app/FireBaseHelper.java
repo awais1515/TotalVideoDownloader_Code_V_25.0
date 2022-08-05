@@ -24,7 +24,7 @@ public class FireBaseHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-//                boolean iSBANNERADS = (boolean) dataSnapshot.child(SharedPref.KEY_BANNER_AD).getValue();
+//
 
                 String admobBannerAdUnit_1 = dataSnapshot.child(SharedPref.KEY_ADMOB_BANNER_AD_1).getValue().toString();
                 String admobBannerAdUnit_2 = dataSnapshot.child(SharedPref.KEY_ADMOB_BANNER_AD_2).getValue().toString();

@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.anthonycr.progress.AnimatedProgressBar;
 import com.appsnipp.trendingapps.Utils.TextUtils;
 import com.appsnipp.trendingapps.Utils.Utils;
+import com.appsnipp.trendingapps.app.Ads;
 import com.appsnipp.trendingapps.app.SharedPref;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -122,7 +123,8 @@ public class BrowserActivity extends AppCompatActivity {
         adViewMainAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_3,SharedPref.ADMOB_BANNER_AD_DEFAULT_3));
 
         AudienceNetworkAds.initialize(this);
-        if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+
+        if(SharedPref.read(SharedPref.KEY_ADS,SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)){
             LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER3);
             layout.addView(adViewMainAct);
             AdRequest adRequest = new AdRequest.Builder().build();
@@ -130,7 +132,7 @@ public class BrowserActivity extends AppCompatActivity {
 //            AdRequest adRequest = new AdRequest.Builder().build();
 //            adViewMainAct.loadAd(adRequest);
         }
-        else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
+        else {
             adViewMainAct.setVisibility(View.GONE);
 //            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_3), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             fb_AdView=new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_3, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_3), com.facebook.ads.AdSize.BANNER_HEIGHT_50);

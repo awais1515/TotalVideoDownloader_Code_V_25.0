@@ -9,6 +9,8 @@ public class SharedPref
     //
     private static SharedPreferences mSharedPref;
 
+    public static final String KEY_ADS = "ads";
+    public static final String ADS_DEFAULT = Ads.FACEBOOK;
 
     public static String ADMOB_BANNER_AD_DEFAULT_1 = "ca-app-pub-3940256099942544/6300978111";
     public static String ADMOB_BANNER_AD_DEFAULT_2 = "ca-app-pub-3940256099942544/6300978111";
