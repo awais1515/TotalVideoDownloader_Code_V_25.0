@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.appsnipp.trendingapps.Utils.Services;
 import com.appsnipp.trendingapps.Utils.TextUtils;
+import com.appsnipp.trendingapps.app.Ads;
 import com.appsnipp.trendingapps.app.FireBaseHelper;
 import com.appsnipp.trendingapps.app.SharedPref;
 import com.facebook.ads.AudienceNetworkAds;
@@ -150,13 +151,13 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //        adViewMainAct=findViewById(R.id.adViewMainAct);
 
         AudienceNetworkAds.initialize(this);
-        if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+        if(SharedPref.read(SharedPref.KEY_ADS,SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)){
                 LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER1);
                 layout.addView(adViewMainAct);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adViewMainAct.loadAd(adRequest);
         }
-        else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
+        else {
             adViewMainAct.setVisibility(View.GONE);
 //            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_1), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
            fb_AdView=new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_1,SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_1), com.facebook.ads.AdSize.BANNER_HEIGHT_50);

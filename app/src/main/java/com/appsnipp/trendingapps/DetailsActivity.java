@@ -81,6 +81,7 @@ import com.appsnipp.trendingapps.Models.ServicesModel;
 import com.appsnipp.trendingapps.Utils.Services;
 import com.appsnipp.trendingapps.Utils.TextUtils;
 import com.appsnipp.trendingapps.Utils.Utils;
+import com.appsnipp.trendingapps.app.Ads;
 import com.appsnipp.trendingapps.app.SharedPref;
 import com.appsnipp.trendingapps.interfaces.AsyncResponse;
 import com.facebook.ads.AudienceNetworkAds;
@@ -93,6 +94,7 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.File;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -104,7 +106,7 @@ import es.dmoral.toasty.Toasty;
 
 import static com.appsnipp.trendingapps.Utils.Services.Lomotif;
 
-public class DetailsActivity extends AppCompatActivity  {
+public class DetailsActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 100;
     FloatingActionButton floatingActionButton_Back;
@@ -119,7 +121,7 @@ public class DetailsActivity extends AppCompatActivity  {
     ArrayAdapter arrayAdapter;
     TextView txt_Service_Name;
     ServicesModel servicesModel;
-    String Url="";
+    String Url = "";
     AdView adViewDetail;
     private InterstitialAd mInterstitialAd;
     com.facebook.ads.AdView fb_AdView;
@@ -129,40 +131,39 @@ public class DetailsActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        c=this;
+        c = this;
         initViews();
         registerDownloaders();
-        CurrentService=(Services) getIntent().getSerializableExtra("SERVICEENUM");
+        CurrentService = (Services) getIntent().getSerializableExtra("SERVICEENUM");
         try {
             onSharedIntent();
+        } catch (Exception ex) {
         }
-        catch (Exception ex)
-        {}
-        servicesModel=Utils.GetServicesModel(CurrentService,this);
+        servicesModel = Utils.GetServicesModel(CurrentService, this);
 
 
         SetServiceHeaders();
         LoadFiles();
         try {
-            Url=getIntent().getSerializableExtra("URL").toString();
+            Url = getIntent().getSerializableExtra("URL").toString();
             txtVideoURL.setText(Url);
             DownloadProcess();
+        } catch (Exception ex) {
         }
-        catch (Exception ex)
-        {}
+        if (SharedPref.read(SharedPref.KEY_ADS, SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)) {
+            AdRequest adRequestinter = new AdRequest.Builder().build();
+            InterstitialAd.load(this, SharedPref.read(SharedPref.KEY_ADMOB_INTER, SharedPref.ADMOB_INTER_AD_DEFAULT), adRequestinter, new InterstitialAdLoadCallback() {
+                @Override
+                public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                    mInterstitialAd = interstitialAd;
+                }
 
-        AdRequest adRequestinter = new AdRequest.Builder().build();
-        InterstitialAd.load(this,SharedPref.read(SharedPref.KEY_ADMOB_INTER,SharedPref.ADMOB_INTER_AD_DEFAULT), adRequestinter, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                mInterstitialAd = interstitialAd;
-            }
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                mInterstitialAd = null;
-            }
-        });
-
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    mInterstitialAd = null;
+                }
+            });
+        }
         //mInterstitialAd=InterstitialAd();
         // mInterstitialAd.setAdUnitId(getResources().getString(R.string.AdmobInterstitial) );
         //mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -184,24 +185,25 @@ public class DetailsActivity extends AppCompatActivity  {
 //            }
 //        });
 
+        else {
 
-
-        AudienceNetworkAds.initialize(this);
-        FBinterstitialAd = new com.facebook.ads.InterstitialAd(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_INTER_AD_1, SharedPref.FB_ADMOB_INTERADS_AD_DEFAULT));
-        FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
+            AudienceNetworkAds.initialize(this);
+            FBinterstitialAd = new com.facebook.ads.InterstitialAd(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_INTER_AD_1, SharedPref.FB_ADMOB_INTERADS_AD_DEFAULT));
+            FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
+        }
 
         adViewDetail = new AdView(this);
         adViewDetail.setAdSize(AdSize.SMART_BANNER);
-        adViewDetail.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_2,SharedPref.ADMOB_BANNER_AD_DEFAULT_2));
-        if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+        adViewDetail.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_2, SharedPref.ADMOB_BANNER_AD_DEFAULT_2));
+        if (SharedPref.read(SharedPref.KEY_ADS, SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER2);
             layout.addView(adViewDetail);
             AdRequest adRequest = new AdRequest.Builder().build();
             adViewDetail.loadAd(adRequest);
-        }else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
+        } else {
             adViewDetail.setVisibility(View.GONE);
 //            fb_AdView=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_2), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
-            fb_AdView=new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_2, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_2), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+            fb_AdView = new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_2, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_2), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             LinearLayout adContainer = (LinearLayout) findViewById(R.id.fb_banner_container_detail);
             adContainer.addView(fb_AdView);
             fb_AdView.loadAd();
@@ -209,15 +211,12 @@ public class DetailsActivity extends AppCompatActivity  {
 
     }
 
-    private void onSharedIntent()
-    {
+    private void onSharedIntent() {
         Intent receiverdIntent = getIntent();
         String receivedAction = receiverdIntent.getAction();
         String receivedType = receiverdIntent.getType();
-        if (receivedAction.equals(Intent.ACTION_SEND))
-        {
-            if (receivedType.startsWith("text/"))
-            {
+        if (receivedAction.equals(Intent.ACTION_SEND)) {
+            if (receivedType.startsWith("text/")) {
                 String receivedText = receiverdIntent
                         .getStringExtra(Intent.EXTRA_TEXT);
                 if (receivedText != null) {
@@ -226,30 +225,24 @@ public class DetailsActivity extends AppCompatActivity  {
             }
         }
     }
-    private void CheckUrls(String text){
-        List<String> result= TextUtils.extractUrls(text);
-        if(result.size()==0)
-        {
+
+    private void CheckUrls(String text) {
+        List<String> result = TextUtils.extractUrls(text);
+        if (result.size() == 0) {
             Toasty.error(DetailsActivity.this, "No Url Found in you input", Toast.LENGTH_SHORT, true).show();
-        }
-        else
-        {
-            Services s=TextUtils.GetServiceByURL( result.get(0), DetailsActivity.this );
-            if(s !=null)
-            {
-                CurrentService=s;
+        } else {
+            Services s = TextUtils.GetServiceByURL(result.get(0), DetailsActivity.this);
+            if (s != null) {
+                CurrentService = s;
                 txtVideoURL.setText(result.get(0));
                 DownloadProcess();
-            }
-            else
-            {
+            } else {
                 Toasty.error(DetailsActivity.this, "Given URL not match", Toast.LENGTH_SHORT, true).show();
             }
         }
     }
 
-    private void SetServiceHeaders()
-    {
+    private void SetServiceHeaders() {
         txt_Service_Name.setText(servicesModel.getName());
         txt_Service_Name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,88 +254,76 @@ public class DetailsActivity extends AppCompatActivity  {
         img_Service_Logo.setImageDrawable(servicesModel.getLogoImg());
     }
 
-    private void initViews()
-    {
-        FilesList=new ArrayList<>();
-        floatingActionButton_Back=findViewById(R.id.floatingActionButton_Back);
+    private void initViews() {
+        FilesList = new ArrayList<>();
+        floatingActionButton_Back = findViewById(R.id.floatingActionButton_Back);
         floatingActionButton_Back.setOnClickListener(BackPress());
-        txtVideoURL=findViewById(R.id.txtVideoURL);
-        listview=findViewById(R.id.fileslist);
-        img_Service_Logo=findViewById(R.id.img_Service_Logo);
-        fbBtn_Download=findViewById(R.id.fbBtn_Download);
+        txtVideoURL = findViewById(R.id.txtVideoURL);
+        listview = findViewById(R.id.fileslist);
+        img_Service_Logo = findViewById(R.id.img_Service_Logo);
+        fbBtn_Download = findViewById(R.id.fbBtn_Download);
         fbBtn_Download.setOnClickListener(DownloadPress());
-        txt_Service_Name=findViewById(R.id.txt_Service_Name);
+        txt_Service_Name = findViewById(R.id.txt_Service_Name);
 //        adViewDetail=findViewById(R.id.adViewDetail);
     }
 
-    private void LoadFiles()
-    {
-        if (Build.VERSION.SDK_INT >= 23)
-        {
-            if(checkPermission())
-            {
+    private void LoadFiles() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkPermission()) {
                 LogFiles();
-            }
-            else
-            {
+            } else {
                 requestPermission();
             }
-        }
-        else
-        {
+        } else {
             LogFiles();
         }
     }
 
 
-    private void LogFiles()
-    {
-        FilesList=new ArrayList<>();
-       try {
-           File dir = new File( servicesModel.getRootDirectory().getAbsolutePath() + "/");
-           if (dir.exists()) {
-               File list[] = dir.listFiles();
-               if (list != null && list.length >= 1) {
-                   Arrays.sort( list, new Comparator()
-                   {
-                       public int compare(Object o1, Object o2) {
+    private void LogFiles() {
+        FilesList = new ArrayList<>();
+        try {
+            File dir = new File(servicesModel.getRootDirectory().getAbsolutePath() + "/");
+            if (dir.exists()) {
+                File list[] = dir.listFiles();
+                if (list != null && list.length >= 1) {
+                    Arrays.sort(list, new Comparator() {
+                        public int compare(Object o1, Object o2) {
 
-                           if (((File)o1).lastModified() > ((File)o2).lastModified()) {
-                               return -1;
-                           } else if (((File)o1).lastModified() < ((File)o2).lastModified()) {
-                               return +1;
-                           } else {
-                               return 0;
-                           }
-                       }
+                            if (((File) o1).lastModified() > ((File) o2).lastModified()) {
+                                return -1;
+                            } else if (((File) o1).lastModified() < ((File) o2).lastModified()) {
+                                return +1;
+                            } else {
+                                return 0;
+                            }
+                        }
 
-                   });
-               }
-               for (int i = 0; i < list.length; i++) {
-                   FilesList.add(list[i].getName());
-               }
-               arrayAdapter = new ArrayAdapter(DetailsActivity.this, android.R.layout.simple_list_item_1, FilesList);
-               listview.setAdapter(arrayAdapter);
-               registerForContextMenu(listview);
-               listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                   @Override
-                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                       PlayVideo(position);
-                   }
-               });
-               listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                   @Override
-                   public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                       return false;
-                   }
-               });
+                    });
+                }
+                for (int i = 0; i < list.length; i++) {
+                    FilesList.add(list[i].getName());
+                }
+                arrayAdapter = new ArrayAdapter(DetailsActivity.this, android.R.layout.simple_list_item_1, FilesList);
+                listview.setAdapter(arrayAdapter);
+                registerForContextMenu(listview);
+                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        PlayVideo(position);
+                    }
+                });
+                listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        return false;
+                    }
+                });
 
-           }
-       }
-       catch (Exception ex)
-       {
+            }
+        } catch (Exception ex) {
 
-       }
+        }
     }
 
 
@@ -351,18 +332,17 @@ public class DetailsActivity extends AppCompatActivity  {
         if (v.getId() == R.id.fileslist) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             String title = ((String) arrayAdapter.getItem(info.position));
-            menu.add(Menu.NONE,info.position,1,getResources().getString(R.string.Play));
-            menu.add(Menu.NONE,info.position,2,getResources().getString(R.string.Delete));
-            menu.add(Menu.NONE,info.position,3,getResources().getString(R.string.Share));
+            menu.add(Menu.NONE, info.position, 1, getResources().getString(R.string.Play));
+            menu.add(Menu.NONE, info.position, 2, getResources().getString(R.string.Delete));
+            menu.add(Menu.NONE, info.position, 3, getResources().getString(R.string.Share));
         }
     }
-
 
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getTitle() == getResources().getString(R.string.Play)) {
-             PlayVideo(item.getItemId());
+            PlayVideo(item.getItemId());
         }
         if (item.getTitle() == getResources().getString(R.string.Delete)) {
             DeleteConfirm(item.getItemId());
@@ -373,18 +353,17 @@ public class DetailsActivity extends AppCompatActivity  {
         return true;
     }
 
-    private void ShareFile(int itemId)
-    {
+    private void ShareFile(int itemId) {
         File file = new File(getFullPath(itemId)).getAbsoluteFile();
         Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
         Intent intentShareFile = new Intent(Intent.ACTION_SEND);
         intentShareFile.setType(URLConnection.guessContentTypeFromName(file.getName()));
-        intentShareFile.putExtra(Intent.EXTRA_STREAM,uri);
+        intentShareFile.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intentShareFile, getResources().getString(R.string.ShareFile)));
     }
 
     private void DeleteConfirm(int index) {
-        final int DeletableId=index;
+        final int DeletableId = index;
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle(R.string.app_name);
         builder.setMessage(getResources().getString(R.string.ConfirmDelete) + arrayAdapter.getItem(index).toString());
@@ -399,9 +378,7 @@ public class DetailsActivity extends AppCompatActivity  {
                     } else {
                         Toasty.error(c, getResources().getString(R.string.UnabletoDelete), Toast.LENGTH_SHORT, true).show();
                     }
-                }
-                else
-                {
+                } else {
                     LoadFiles();
                 }
                 dialog.dismiss();
@@ -416,26 +393,23 @@ public class DetailsActivity extends AppCompatActivity  {
         alert.show();
     }
 
-    private void PlayVideo(int index)
-    {
-        File file = new File(   getFullPath(index) ).getAbsoluteFile();
-        if(file.exists())
-        {
+    private void PlayVideo(int index) {
+        File file = new File(getFullPath(index)).getAbsoluteFile();
+        if (file.exists()) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.parse(String.valueOf(file)), "video/mp4");
             startActivity(intent);
         }
     }
 
-    private String getFullPath(int index)
-    {
-        return servicesModel.getRootDirectory().getAbsoluteFile()+"/"+ arrayAdapter.getItem(index).toString();
+    private String getFullPath(int index) {
+        return servicesModel.getRootDirectory().getAbsoluteFile() + "/" + arrayAdapter.getItem(index).toString();
     }
 
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(DetailsActivity.this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
-                )) {
+        )) {
             Toasty.error(c, getResources().getString(R.string.NoExternalStoragepermission), Toast.LENGTH_SHORT, true).show();
         } else {
             ActivityCompat.requestPermissions(DetailsActivity.this, new String[]
@@ -448,17 +422,16 @@ public class DetailsActivity extends AppCompatActivity  {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LoadFiles();
+                    LoadFiles();
 
-            } else {
+                } else {
                     Toasty.error(c, getResources().getString(R.string.PermissionDenied), Toast.LENGTH_SHORT, true).show();
-            }
-            break;
+                }
+                break;
         }
     }
 
-    private boolean checkPermission()
-    {
+    private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(DetailsActivity.this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE);
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -468,13 +441,11 @@ public class DetailsActivity extends AppCompatActivity  {
         }
     }
 
-    private void registerDownloaders()
-    {
-        registerReceiver(onDownloadComplete,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    private void registerDownloaders() {
+        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-    private View.OnClickListener DownloadPress()
-    {
+    private View.OnClickListener DownloadPress() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -484,22 +455,20 @@ public class DetailsActivity extends AppCompatActivity  {
         };
     }
 
-    private void DownloadButtonClick(long output)
-    {
-        DownloadId=output;
+    private void DownloadButtonClick(long output) {
+        DownloadId = output;
         txtVideoURL.setText("");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //FBinterstitialAd
-                if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+                if(SharedPref.read(SharedPref.KEY_ADS,SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)) {
                     if (mInterstitialAd != null) {
                         mInterstitialAd.show(DetailsActivity.this);
                     }
-                }
-                else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
-                    if(FBinterstitialAd.isAdLoaded()){
+                } else  {
+                    if (FBinterstitialAd.isAdLoaded()) {
                         FBinterstitialAd.show();
                     }
                 }
@@ -509,46 +478,35 @@ public class DetailsActivity extends AppCompatActivity  {
         }, 1000);
         getIntent().removeExtra("URL");
     }
-    private void DownloadProcess()
-    {
-        if (txtVideoURL.getText().toString().equals("") )
-        {
+
+    private void DownloadProcess() {
+        if (txtVideoURL.getText().toString().equals("")) {
             Toasty.warning(c, getResources().getString(R.string.enterUrl), Toast.LENGTH_SHORT, true).show();
-        }
-        else if (! URLUtil.isValidUrl( txtVideoURL.getText().toString() ))
-        {
+        } else if (!URLUtil.isValidUrl(txtVideoURL.getText().toString())) {
             Toasty.warning(c, getResources().getString(R.string.enterValidUrl), Toast.LENGTH_SHORT, true).show();
-        }
-        else {
-            if(servicesModel.getEnmService()==Services.ROPOSO)
-            {
+        } else {
+            if (servicesModel.getEnmService() == Services.ROPOSO) {
                 new Roposo(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.SHARECHAT)
-            {
+            } else if (servicesModel.getEnmService() == Services.SHARECHAT) {
                 new Sharechat(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.FACEBOOK)
-            {
+            } else if (servicesModel.getEnmService() == Services.FACEBOOK) {
                 new Facebook2(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.INSTAGRAM)
-            {
+                }, DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.INSTAGRAM) {
                 new Instagram(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
@@ -565,8 +523,7 @@ public class DetailsActivity extends AppCompatActivity  {
 //                    }
 //                }).execute(new String[]{txtVideoURL.getText().toString()});
 //            }
-            else if (servicesModel.getEnmService()==Services.LIKEE)
-            {
+            else if (servicesModel.getEnmService() == Services.LIKEE) {
                 new Likee(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
@@ -584,121 +541,93 @@ public class DetailsActivity extends AppCompatActivity  {
 //                }).execute(new String[]{txtVideoURL.getText().toString()});
 //            }
 
-            else if (servicesModel.getEnmService()==Services.VIMEO)
-            {
+            else if (servicesModel.getEnmService() == Services.VIMEO) {
                 new Vimeo(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.CHINGARI)
-            {
+            } else if (servicesModel.getEnmService() == Services.CHINGARI) {
                 new Chingari(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.RIZZELE)
-            {
+            } else if (servicesModel.getEnmService() == Services.RIZZELE) {
                 new Rizzle(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.JOSH)
-            {
+            } else if (servicesModel.getEnmService() == Services.JOSH) {
                 new Josh(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.ZILI)
-            {
-                Zili zili= new Zili(c, new AsyncResponse() {
+            } else if (servicesModel.getEnmService() == Services.ZILI) {
+                Zili zili = new Zili(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },DetailsActivity.this);
+                }, DetailsActivity.this);
                 zili.LoadVideo(txtVideoURL.getText().toString());
 
-            }
-            else if (servicesModel.getEnmService()==Services.MITRON)
-            {
+            } else if (servicesModel.getEnmService() == Services.MITRON) {
                 new Mitron(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.TRELL)
-            {
+            } else if (servicesModel.getEnmService() == Services.TRELL) {
                 new Trell(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.Dubsmash)
-            {
+            } else if (servicesModel.getEnmService() == Services.Dubsmash) {
                 new Dubsmash(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.Triller)
-            {
+            } else if (servicesModel.getEnmService() == Services.Triller) {
                 new Triller(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.BoloIndya)
-            {
+            } else if (servicesModel.getEnmService() == Services.BoloIndya) {
                 new BoloIndya(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.HIND)
-            {
+            } else if (servicesModel.getEnmService() == Services.HIND) {
                 new Hind(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.FUNIMATE)
-            {
+            } else if (servicesModel.getEnmService() == Services.FUNIMATE) {
                 new Funimate(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.BYTE)
-            {
+            } else if (servicesModel.getEnmService() == Services.BYTE) {
                 new ByteVodeo(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
@@ -716,168 +645,126 @@ public class DetailsActivity extends AppCompatActivity  {
 //                }).execute(new String[]{txtVideoURL.getText().toString()});
 //            }
 
-            else if (servicesModel.getEnmService()==Services.MXTAKATAK)
-            {
+            else if (servicesModel.getEnmService() == Services.MXTAKATAK) {
                 new Mxtakatak(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.REDDIT)
-            {
+            } else if (servicesModel.getEnmService() == Services.REDDIT) {
                 new Reddit(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.Soundcloud)
-            {
+            } else if (servicesModel.getEnmService() == Services.Soundcloud) {
                 new Soundcloud(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.FAIRTOK)
-            {
+            } else if (servicesModel.getEnmService() == Services.FAIRTOK) {
                 new Fairtok(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.RAASK)
-            {
+            } else if (servicesModel.getEnmService() == Services.RAASK) {
                 new Raask(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.OJOO)
-            {
+            } else if (servicesModel.getEnmService() == Services.OJOO) {
                 new Ojoo(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.SNACKVIDEO)
-            {
+                }, DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.SNACKVIDEO) {
                 new SnackVideo(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.IMGUR)
-            {
+                }, DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.IMGUR) {
                 new Imgur(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.TUMBLR)
-            {
+            } else if (servicesModel.getEnmService() == Services.TUMBLR) {
                 new Tumblr(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.IMDB)
-            {
+            } else if (servicesModel.getEnmService() == Services.IMDB) {
                 new Imdb(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.Pinterest)
-            {
+                }, DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.Pinterest) {
                 new Pinterest(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.Flickr)
-            {
+            } else if (servicesModel.getEnmService() == Services.Flickr) {
                 new Flickr(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.MOJ)
-            {
+                }, DetailsActivity.this).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.MOJ) {
                 new MojSecond(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-
-            else if (servicesModel.getEnmService()==Services.GDRIVE)
-            {
+            } else if (servicesModel.getEnmService() == Services.GDRIVE) {
                 new GDrive(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-
-            else if (servicesModel.getEnmService()==Services.fouranim)
-            {
+                }, servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.fouranim) {
                 new fouranim(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.pdisk)
-            {
+            } else if (servicesModel.getEnmService() == Services.pdisk) {
                 new pdisk(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()==Services.tiki)
-            {
+            } else if (servicesModel.getEnmService() == Services.tiki) {
                 new tiki(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
                 }).execute(new String[]{txtVideoURL.getText().toString()});
-            }
-            else if (servicesModel.getEnmService()== Services.Lomotif)
-            {
+            } else if (servicesModel.getEnmService() == Services.Lomotif) {
                 new Lomotif(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
@@ -896,91 +783,83 @@ public class DetailsActivity extends AppCompatActivity  {
                     }
                 },servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
             }*/
-            else if ((servicesModel.getEnmService()==Services.fansubs)
-                    || (servicesModel.getEnmService()==Services.espn)
-                    || (servicesModel.getEnmService()==Services.nonegag)
-                    || (servicesModel.getEnmService()==Services.bilibili)
-                    || (servicesModel.getEnmService()==Services.blogger)
-                    || (servicesModel.getEnmService()==Services.izlesene)
-                    || (servicesModel.getEnmService()==Services.liveleak)
-                    || (servicesModel.getEnmService()==Services.bitchute)
-                    || (servicesModel.getEnmService()==Services.linkedin)
-                    || (servicesModel.getEnmService()==Services.popcornflix)
-                    || (servicesModel.getEnmService()==Services.meme)
-                    || (servicesModel.getEnmService()==Services.kickstarter)
-                    || (servicesModel.getEnmService()==Services.vlive)
-                    || (servicesModel.getEnmService()==Services.vlipsy)
-                    || (servicesModel.getEnmService()==Services.vidlit)
-                    || (servicesModel.getEnmService()==Services.gloriatv)
-                    || (servicesModel.getEnmService()==Services.wwe)
-                    || (servicesModel.getEnmService()==Services.aparat)
-                    || (servicesModel.getEnmService()==Services.onetvru)
-                    || (servicesModel.getEnmService()==Services.allocine)
-                    || (servicesModel.getEnmService()==Services.veer)
-                    || (servicesModel.getEnmService()==Services.kooapp)
-                    || (servicesModel.getEnmService()==Services.IFUNNY)
-                    || (servicesModel.getEnmService()==Services.TIKTOK)
-                    || (servicesModel.getEnmService()==Services.streamable)
-                    || (servicesModel.getEnmService()==Services.gfycat)
-                    || (servicesModel.getEnmService()==Services.fthis)
-                    || (servicesModel.getEnmService()==Services.fireworktv)
-                    || (servicesModel.getEnmService()==Services.coub)
-                    || (servicesModel.getEnmService()==Services.rumble)
-                    || (servicesModel.getEnmService()==Services.fourshared)
-                    || (servicesModel.getEnmService()==Services.ted)
-                    || (servicesModel.getEnmService()==Services.DAILYMOTION)
-                    || (servicesModel.getEnmService()==Services.TWITTER)
-                    )
-            {
+            else if ((servicesModel.getEnmService() == Services.fansubs)
+                    || (servicesModel.getEnmService() == Services.espn)
+                    || (servicesModel.getEnmService() == Services.nonegag)
+                    || (servicesModel.getEnmService() == Services.bilibili)
+                    || (servicesModel.getEnmService() == Services.blogger)
+                    || (servicesModel.getEnmService() == Services.izlesene)
+                    || (servicesModel.getEnmService() == Services.liveleak)
+                    || (servicesModel.getEnmService() == Services.bitchute)
+                    || (servicesModel.getEnmService() == Services.linkedin)
+                    || (servicesModel.getEnmService() == Services.popcornflix)
+                    || (servicesModel.getEnmService() == Services.meme)
+                    || (servicesModel.getEnmService() == Services.kickstarter)
+                    || (servicesModel.getEnmService() == Services.vlive)
+                    || (servicesModel.getEnmService() == Services.vlipsy)
+                    || (servicesModel.getEnmService() == Services.vidlit)
+                    || (servicesModel.getEnmService() == Services.gloriatv)
+                    || (servicesModel.getEnmService() == Services.wwe)
+                    || (servicesModel.getEnmService() == Services.aparat)
+                    || (servicesModel.getEnmService() == Services.onetvru)
+                    || (servicesModel.getEnmService() == Services.allocine)
+                    || (servicesModel.getEnmService() == Services.veer)
+                    || (servicesModel.getEnmService() == Services.kooapp)
+                    || (servicesModel.getEnmService() == Services.IFUNNY)
+                    || (servicesModel.getEnmService() == Services.TIKTOK)
+                    || (servicesModel.getEnmService() == Services.streamable)
+                    || (servicesModel.getEnmService() == Services.gfycat)
+                    || (servicesModel.getEnmService() == Services.fthis)
+                    || (servicesModel.getEnmService() == Services.fireworktv)
+                    || (servicesModel.getEnmService() == Services.coub)
+                    || (servicesModel.getEnmService() == Services.rumble)
+                    || (servicesModel.getEnmService() == Services.fourshared)
+                    || (servicesModel.getEnmService() == Services.ted)
+                    || (servicesModel.getEnmService() == Services.DAILYMOTION)
+                    || (servicesModel.getEnmService() == Services.TWITTER)
+            ) {
                 new DownloaderCommon(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
-            }
+                }, servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
+            } else if (servicesModel.getEnmService() == Services.BITTUBE) {
+                String Url = txtVideoURL.getText().toString();
+                if (Url.contains(".tv")) {
+                    String VideoId = Url.split("/")[Url.split("/").length - 1];
+                    Url = "https://bittube.video/videos/watch/" + VideoId;
 
-
-            else if (servicesModel.getEnmService()==Services.BITTUBE)
-            {
-                String Url=txtVideoURL.getText().toString();
-                if(Url.contains(".tv"))
-                {
-                    String VideoId=Url.split("/")[Url.split("/").length -1];
-                    Url="https://bittube.video/videos/watch/"+VideoId;
-
-                } new GDrive(c, new AsyncResponse() {
-                @Override
-                public void processFinish(long output) {
-                    DownloadButtonClick(output);
                 }
-            },servicesModel).execute(new String[]{Url});
-            }
-            else if (
-                    (servicesModel.getEnmService()==Services.MEDIAFIRE )
-                            || (servicesModel.getEnmService()==Services.OKRU)
-                            || (servicesModel.getEnmService()==Services.VK)
-                            || (servicesModel.getEnmService()==Services.SOLIDFILES)
-                            || (servicesModel.getEnmService()==Services.VIDEOZA)
-                            || (servicesModel.getEnmService()==Services.SENDVID)
-
-
-            )
-            {
                 new GDrive(c, new AsyncResponse() {
                     @Override
                     public void processFinish(long output) {
                         DownloadButtonClick(output);
                     }
-                },servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
+                }, servicesModel).execute(new String[]{Url});
+            } else if (
+                    (servicesModel.getEnmService() == Services.MEDIAFIRE)
+                            || (servicesModel.getEnmService() == Services.OKRU)
+                            || (servicesModel.getEnmService() == Services.VK)
+                            || (servicesModel.getEnmService() == Services.SOLIDFILES)
+                            || (servicesModel.getEnmService() == Services.VIDEOZA)
+                            || (servicesModel.getEnmService() == Services.SENDVID)
+
+
+            ) {
+                new GDrive(c, new AsyncResponse() {
+                    @Override
+                    public void processFinish(long output) {
+                        DownloadButtonClick(output);
+                    }
+                }, servicesModel).execute(new String[]{txtVideoURL.getText().toString()});
             }
 
 
         }
     }
 
-    private View.OnClickListener BackPress()
-    {
+    private View.OnClickListener BackPress() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -990,13 +869,11 @@ public class DetailsActivity extends AppCompatActivity  {
     }
 
 
-
-    private BroadcastReceiver onDownloadComplete=new BroadcastReceiver() {
+    private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            long id=intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID,-1);
-            if(DownloadId==id)
-            {
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (DownloadId == id) {
                 Toasty.success(c, getResources().getString(R.string.DownloadComplete), Toast.LENGTH_SHORT, true).show();
                 LoadFiles();
             }

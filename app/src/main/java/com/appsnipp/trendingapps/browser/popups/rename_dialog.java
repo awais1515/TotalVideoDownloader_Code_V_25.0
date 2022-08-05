@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.appsnipp.trendingapps.app.Ads;
 import com.appsnipp.trendingapps.app.SharedPref;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdRequest;
@@ -55,24 +56,25 @@ public class rename_dialog  extends AppCompatDialogFragment {
         btnDownload=view.findViewById(R.id.btnDownloadNow);
 
         activity=getActivity();
-
-        AdRequest adRequestinter = new AdRequest.Builder().build();
+        if(SharedPref.read(SharedPref.KEY_ADS,SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)) {
+            AdRequest adRequestinter = new AdRequest.Builder().build();
 //        InterstitialAd.load(mContext,getResources().getString(R.string.AdmobInterstitial_2), adRequestinter, new InterstitialAdLoadCallback() {
-        InterstitialAd.load(mContext, SharedPref.read(SharedPref.KEY_ADMOB_INTER_2,SharedPref.ADMOB_INTER_AD_DEFAULT_2), adRequestinter, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                mInterstitialAd = interstitialAd;
-            }
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                mInterstitialAd = null;
-            }
-        });
+            InterstitialAd.load(mContext, SharedPref.read(SharedPref.KEY_ADMOB_INTER_2, SharedPref.ADMOB_INTER_AD_DEFAULT_2), adRequestinter, new InterstitialAdLoadCallback() {
+                @Override
+                public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                    mInterstitialAd = interstitialAd;
+                }
 
-        AudienceNetworkAds.initialize(mContext);
-        FBinterstitialAd = new com.facebook.ads.InterstitialAd(mContext, SharedPref.read(SharedPref.KEY_FB_ADMOB_INTER_AD_2, SharedPref.FB_ADMOB_INTERADS_AD_DEFAULT_2));
-        FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
-
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    mInterstitialAd = null;
+                }
+            });
+        }else {
+            AudienceNetworkAds.initialize(mContext);
+            FBinterstitialAd = new com.facebook.ads.InterstitialAd(mContext, SharedPref.read(SharedPref.KEY_FB_ADMOB_INTER_AD_2, SharedPref.FB_ADMOB_INTERADS_AD_DEFAULT_2));
+            FBinterstitialAd.loadAd(FBinterstitialAd.buildLoadAdConfig().build());
+        }
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,12 +103,13 @@ public class rename_dialog  extends AppCompatDialogFragment {
 
     private void ShowAd()
     {
-        if( getResources().getString(R.string.Ads).equals("ADMOB") ){
+
+        if(SharedPref.read(SharedPref.KEY_ADS,SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)){
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(activity);
             }
         }
-        else if (getResources().getString(R.string.Ads).equals("FACEBOOK")){
+        else {
             if(FBinterstitialAd.isAdLoaded()){
                 FBinterstitialAd.show();
             }

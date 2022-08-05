@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.trendingapps.Models.file_type;
 import com.appsnipp.trendingapps.Utils.Utils;
+import com.appsnipp.trendingapps.app.Ads;
 import com.appsnipp.trendingapps.app.SharedPref;
 import com.appsnipp.trendingapps.browser.Adapters.DownloadsAdapter;
 import com.facebook.ads.AudienceNetworkAds;
@@ -71,14 +72,14 @@ public class DownloadsActivity extends AppCompatActivity {
         adViewDetailAct.setAdUnitId(SharedPref.read(SharedPref.KEY_ADMOB_BANNER_AD_4, SharedPref.ADMOB_BANNER_AD_DEFAULT_4));
 //        adViewDetailAct=findViewById(R.id.adViewDetailAct);
         AudienceNetworkAds.initialize(this);
-        if (getResources().getString(R.string.Ads).equals("ADMOB")) {
+        if(SharedPref.read(SharedPref.KEY_ADS,SharedPref.ADS_DEFAULT).equals(Ads.ADMOB)){
             LinearLayout layout = (LinearLayout) findViewById(R.id.ADMOBBANNER4);
             layout.addView(adViewDetailAct);
             AdRequest adRequest = new AdRequest.Builder().build();
             adViewDetailAct.loadAd(adRequest);
 //            AdRequest adRequest = new AdRequest.Builder().build();
 //            adViewDetailAct.loadAd(adRequest);
-        } else if (getResources().getString(R.string.Ads).equals("FACEBOOK")) {
+        } else{
             adViewDetailAct.setVisibility(View.GONE);
 //            fb_banner_container_detail=new com.facebook.ads.AdView(this, getResources().getString(R.string.FB_Banner_Ad_PlacemaneId_4), com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             fb_banner_container_detail = new com.facebook.ads.AdView(this, SharedPref.read(SharedPref.KEY_FB_ADMOB_BANNER_AD_4, SharedPref.FB_ADMOB_BANNERADS_AD_DEFAULT_4), com.facebook.ads.AdSize.BANNER_HEIGHT_50);

@@ -112,7 +112,7 @@
 
 
     <!--    Add "FACEBOOK" if you want ads from Facebook Audiance Network (default ADMOB ) -->
-    <string name="Ads">FACEBOOK</string>
+<!--    <string name="Ads">FACEBOOK</string>-->
 
     <string name="AdmobPUB_Id" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544~3347511713</string>
 <!--    <string name="AdmobBanner_1" tools:ignore="MissingTranslation">ca-app-pub-3940256099942544/6300978111</string>-->

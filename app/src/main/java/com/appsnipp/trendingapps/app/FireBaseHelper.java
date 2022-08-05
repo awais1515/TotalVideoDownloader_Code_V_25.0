@@ -39,7 +39,8 @@ public class FireBaseHelper {
                 String fbadmobBannerAdUnit_4 = dataSnapshot.child(SharedPref.KEY_FB_ADMOB_BANNER_AD_4).getValue().toString();
                 String fbadmobInterAdUnit = dataSnapshot.child(SharedPref.KEY_FB_ADMOB_INTER_AD_1).getValue().toString();
                 String fbadmobInterAdUnit_2 = dataSnapshot.child(SharedPref.KEY_FB_ADMOB_INTER_AD_2).getValue().toString();
-
+                // ads type fb/admob
+                String adsType = dataSnapshot.child(SharedPref.KEY_ADS).getValue().toString();
                 SharedPref.write(SharedPref.KEY_ADMOB_BANNER_AD_1, admobBannerAdUnit_1);
                 SharedPref.write(SharedPref.KEY_ADMOB_BANNER_AD_2, admobBannerAdUnit_2);
                 SharedPref.write(SharedPref.KEY_ADMOB_BANNER_AD_3, admobBannerAdUnit_3);
@@ -53,6 +54,7 @@ public class FireBaseHelper {
                 SharedPref.write(SharedPref.KEY_FB_ADMOB_BANNER_AD_4, fbadmobBannerAdUnit_4);
                 SharedPref.write(SharedPref.KEY_FB_ADMOB_INTER_AD_1, fbadmobInterAdUnit);
                 SharedPref.write(SharedPref.KEY_FB_ADMOB_INTER_AD_2, fbadmobInterAdUnit_2);
+                SharedPref.write(SharedPref.KEY_ADS, adsType);
             }
 
             @Override
