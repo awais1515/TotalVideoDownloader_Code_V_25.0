@@ -102,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
+                android:background="#e8f5e9"
                 android:orientation="vertical">
 
 
@@ -136,13 +137,13 @@
                                 android:backgroundTint="@color/white">
 
                                 <ImageView
-                                    android:background="@drawable/circle"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:paddingEnd="15dp"
-                                    android:src="@drawable/home_ic_browser"
                                     android:layout_centerInParent="true"
-                                    android:backgroundTint="@color/white"/>
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="@color/white"
+                                    android:paddingEnd="15dp"
+                                    android:src="@drawable/home_ic_browser" />
 
                             </RelativeLayout>
                             <TextView
@@ -389,13 +390,13 @@
                                 android:backgroundTint="@color/white">
 
                                 <ImageView
-                                    android:background="@drawable/circle"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:paddingEnd="10dp"
-                                    android:src="@drawable/home_ic_sharechat"
                                     android:layout_centerInParent="true"
-                                    android:backgroundTint="@color/white"/>
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="@color/white"
+                                    android:paddingEnd="10dp"
+                                    android:src="@drawable/home_ic_sharechat" />
 
                             </RelativeLayout>
                             <TextView
@@ -4053,13 +4054,13 @@
                                 android:backgroundTint="@color/white">
 
                                 <ImageView
-                                    android:background="@drawable/circle"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:paddingEnd="10dp"
-                                    android:src="@drawable/home_ic_bittube"
                                     android:layout_centerInParent="true"
-                                    android:backgroundTint="@color/white"/>
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="@color/white"
+                                    android:paddingEnd="10dp"
+                                    android:src="@drawable/home_ic_bittube" />
 
                             </RelativeLayout>
                             <TextView

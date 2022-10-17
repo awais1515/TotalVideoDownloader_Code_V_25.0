@@ -81,7 +81,7 @@
                         app:fb_iconMarginStart="20dp"
                         app:fb_iconMarginEnd="16dp"
                         app:fb_icon="@drawable/ic_download_white"
-                        app:fb_iconColor="#FFF"
+                        app:fb_iconColor="#000000"
                         app:fb_textPaddingStart="16dp"
                         app:fb_textColor="#FFF"
                         app:fb_text="@string/str_Download"
